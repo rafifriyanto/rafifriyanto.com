@@ -20,13 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # enablement:true turns Pages on via the API, so the repository needs no
-      # manual setup in Settings before the first run.
+      # Pages must already be enabled with Source = GitHub Actions
+      # (Settings -> Pages). Enabling it from here needs a token with
+      # pages:write, which the default workflow token does not carry.
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/setup-node@v4
         with:
