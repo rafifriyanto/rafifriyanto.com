@@ -14,13 +14,19 @@ interface Props {
 }
 
 const { locale, t } = Astro.props;
-const canonical = new URL(Astro.url.pathname, SITE.url).href;
+
+// Every absolute URL is derived from where the site is actually deployed, not
+// from a hardcoded domain. Astro.site comes from SITE_URL at build time.
+const origin = Astro.site ?? new URL(SITE.url);
+const canonical = new URL(Astro.url.pathname, origin).href;
+const hrefId = new URL(withBase('/'), origin).href;
+const hrefEn = new URL(withBase('/en/'), origin).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: SITE.name,
-  url: SITE.url,
+  url: canonical,
   description: t.meta.description,
   email: CONTACT.email,
   areaServed: 'ID',
@@ -38,9 +44,9 @@ const jsonLd = {
     <meta name="description" content={t.meta.description} />
     <link rel="canonical" href={canonical} />
 
-    <link rel="alternate" hreflang="id" href={`${SITE.url}/`} />
-    <link rel="alternate" hreflang="en" href={`${SITE.url}/en/`} />
-    <link rel="alternate" hreflang="x-default" href={`${SITE.url}/`} />
+    <link rel="alternate" hreflang="id" href={hrefId} />
+    <link rel="alternate" hreflang="en" href={hrefEn} />
+    <link rel="alternate" hreflang="x-default" href={hrefId} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={t.meta.title} />
