@@ -42,7 +42,7 @@ sisanya belum:
 |---|---|---|
 | `CONTACT.email` | `rafifriyanto@gmail.com` | ✅ sudah benar |
 | `CONTACT.whatsapp` | `6281386100409` | ✅ sudah benar |
-| `CONTACT.github` | tebakan | ganti, atau hapus link-nya dari footer |
+| `CONTACT.github` | `hanbaenom-coder` | ✅ sudah benar |
 | `CONTACT.linkedin` | kosong | ganti, atau hapus link-nya dari footer |
 | `FORM_ENDPOINT` | `''` | endpoint form (lihat bawah) |
 
