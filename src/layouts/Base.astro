@@ -6,6 +6,7 @@ import '../styles/global.css';
 
 import { SITE, CONTACT, type Locale } from '../config';
 import type { Dict } from '../i18n';
+import { withBase } from '../lib/url';
 
 interface Props {
   locale: Locale;
@@ -49,8 +50,8 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#171310" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="sitemap" href="/sitemap.xml" />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={withBase("/sitemap.xml")} />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>

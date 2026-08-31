@@ -1,5 +1,6 @@
 ---
 import { SITE, CONTACT, type Locale } from '../../config';
+import { withBase } from '../../lib/url';
 import type { Dict } from '../../i18n';
 
 interface Props {
@@ -15,7 +16,7 @@ const waHref = `https://wa.me/${CONTACT.whatsapp}`;
 <footer class="foot">
   <div class="shell foot__inner">
     <div class="foot__brand">
-      <a class="foot__wordmark" href={locale === 'id' ? '/' : '/en/'}>{SITE.wordmark}</a>
+      <a class="foot__wordmark" href={withBase(locale === 'id' ? '/' : '/en/')}>{SITE.wordmark}</a>
       <p class="foot__tagline">{t.footer.tagline}</p>
     </div>
 
@@ -42,7 +43,7 @@ const waHref = `https://wa.me/${CONTACT.whatsapp}`;
         <li><a class="foot__link" href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
         <li><a class="foot__link" href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         <li>
-          <a class="foot__link" href={locale === 'id' ? '/en/' : '/'}>
+          <a class="foot__link" href={withBase(locale === 'id' ? '/en/' : '/')}>
             {locale === 'id' ? 'English' : 'Bahasa Indonesia'}
           </a>
         </li>

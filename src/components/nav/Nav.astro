@@ -1,5 +1,6 @@
 ---
 import { SITE, type Locale } from '../../config';
+import { withBase } from '../../lib/url';
 import type { Dict } from '../../i18n';
 
 interface Props {
@@ -13,7 +14,7 @@ const contactHref = '#contact';
 
 <header class="nav" data-nav>
   <div class="nav__inner shell">
-    <a class="wordmark" href={locale === 'id' ? '/' : '/en/'} aria-label={SITE.name}>
+    <a class="wordmark" href={withBase(locale === 'id' ? '/' : '/en/')} aria-label={SITE.name}>
       <span class="wordmark__mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M8.5 6.5 3.5 12l5 5.5M15.5 6.5l5 5.5-5 5.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -30,9 +31,9 @@ const contactHref = '#contact';
 
     <div class="nav__end">
       <div class="lang" role="group" aria-label={t.nav.langLabel}>
-        <a class:list={['lang__opt', locale === 'id' && 'is-active']} href="/" hreflang="id" aria-current={locale === 'id' ? 'true' : undefined}>ID</a>
+        <a class:list={['lang__opt', locale === 'id' && 'is-active']} href={withBase('/')} hreflang="id" aria-current={locale === 'id' ? 'true' : undefined}>ID</a>
         <span class="lang__sep" aria-hidden="true">/</span>
-        <a class:list={['lang__opt', locale === 'en' && 'is-active']} href="/en/" hreflang="en" aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
+        <a class:list={['lang__opt', locale === 'en' && 'is-active']} href={withBase('/en/')} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined}>EN</a>
       </div>
 
       <a class="btn nav__cta" href={contactHref}>
