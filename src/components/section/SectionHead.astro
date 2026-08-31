@@ -1,0 +1,26 @@
+---
+/**
+ * The one section header used everywhere, so the index / title / lede columns
+ * line up across the page instead of each section inventing its own rhythm.
+ */
+interface Props {
+  no: string;
+  label: string;
+  title: string;
+  lede?: string;
+  id: string;
+}
+
+const { no, label, title, lede, id } = Astro.props;
+---
+
+<header class="section-head reveal">
+  <p class="section-index">
+    <span class="section-index__no">{no}</span>
+    <span class="section-index__label">{label}</span>
+  </p>
+
+  <h2 class="section-title" id={id}>{title}</h2>
+
+  {lede && <p class="section-lede">{lede}</p>}
+</header>

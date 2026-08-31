@@ -1,0 +1,93 @@
+/*
+ * Design tokens — "Instrument Dark"
+ *
+ * Direction: precision-engineering editorial. Warm near-black base, hairline
+ * borders instead of soft shadows, copper as the single decision colour, and a
+ * jade reserved strictly for "this is running / this is live" states.
+ * Mono is a first-class display face here, not a code afterthought.
+ */
+
+:root {
+  /* ---- Surfaces: warm near-black, not blue-black ---- */
+  --ink-950: oklch(11% 0.01 62);
+  --ink-900: oklch(13.5% 0.012 62);
+  --ink-850: oklch(17% 0.013 62);
+  --ink-800: oklch(21% 0.013 62);
+  --ink-750: oklch(26% 0.012 62);
+
+  /* ---- Hairlines: borders carry the depth, not shadows ---- */
+  --line: oklch(100% 0 0 / 0.08);
+  --line-mid: oklch(100% 0 0 / 0.14);
+  --line-strong: oklch(100% 0 0 / 0.24);
+
+  /* ---- Text ---- */
+  --text-hi: oklch(97% 0.004 80);
+  --text-mid: oklch(75% 0.008 75);
+  /* 60% is the floor that still clears WCAG AA (4.5:1) on --ink-900. */
+  --text-lo: oklch(60% 0.009 70);
+
+  /* ---- Colour with a job ---- */
+  --copper: oklch(79% 0.145 66); /* primary action, emphasis */
+  --copper-dim: oklch(64% 0.12 66);
+  --copper-deep: oklch(42% 0.09 60);
+  --jade: oklch(78% 0.13 168); /* semantic: live, running, passing */
+  --rose: oklch(70% 0.17 22); /* semantic: alert, attention */
+
+  /*
+   * Type — three faces, each with one job. The serif is the reason this reads
+   * as designed rather than generated: it appears only on the hero accent word
+   * and on pull quotes, never as body copy.
+   *   display   → headings, UI, body
+   *   mono      → labels, indices, data, prices, status
+   *   editorial → one accent word per hero, one pull quote per section
+   */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
+  --font-editorial: 'Instrument Serif', ui-serif, Georgia, serif;
+
+  --text-micro: 0.6875rem;
+  --text-xs: 0.78rem;
+  --text-sm: 0.875rem;
+  --text-base: clamp(1rem, 0.95rem + 0.22vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.04rem + 0.4vw, 1.3rem);
+  --text-xl: clamp(1.4rem, 1.24rem + 0.75vw, 1.9rem);
+  --text-2xl: clamp(2rem, 1.6rem + 1.9vw, 3.4rem);
+  --text-3xl: clamp(2.4rem, 1.7rem + 3.2vw, 4.4rem);
+  --text-hero: clamp(2.9rem, 1.4rem + 6.4vw, 7rem);
+  /* Pull quotes sit between a section title and body — deliberately not h2-sized. */
+  --text-quote: clamp(1.5rem, 1.15rem + 1.6vw, 2.4rem);
+
+  --tracking-wide: 0.18em;
+  --tracking-wider: 0.3em;
+  --leading-tight: 1.02;
+  --leading-snug: 1.22;
+  --leading-body: 1.62;
+
+  /* ---- Rhythm: deliberately uneven, not one padding everywhere ---- */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-section: clamp(5rem, 3.5rem + 7vw, 11rem);
+  --gutter: clamp(1.25rem, 0.6rem + 3vw, 3.5rem);
+  --measure: 62ch;
+  --max-w: 78rem;
+
+  /* ---- Radii: small and consistent; this is not a pill-shaped brand ---- */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-full: 999px;
+
+  /* ---- Motion ---- */
+  --dur-fast: 160ms;
+  --dur-normal: 320ms;
+  --dur-slow: 720ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Gentle overshoot for staggered grid items — the GSAP back.out(1.4) feel. */
+  --ease-overshoot: cubic-bezier(0.34, 1.4, 0.5, 1);
+}

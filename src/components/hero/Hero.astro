@@ -1,0 +1,143 @@
+---
+import type { Dict } from '../../i18n';
+import PipelinePanel from './PipelinePanel.astro';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="shell hero__shell">
+    <p class="eyebrow hero__eyebrow">{t.hero.eyebrow}</p>
+
+    <h1 class="hero__title" id="hero-title">
+      {t.hero.title.lead}{' '}
+      <em class="accent-word">{t.hero.title.accent}</em>{' '}
+      {t.hero.title.tail}
+    </h1>
+
+    <div class="hero__body">
+      <div class="hero__copy">
+        <p class="hero__lede">{t.hero.lede}</p>
+
+        <div class="hero__actions">
+          <a class="btn" href="#contact">
+            {t.hero.ctaPrimary}
+            <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn--ghost" href="#work">
+            {t.hero.ctaSecondary}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__panel">
+        <PipelinePanel t={t} />
+      </div>
+    </div>
+
+    <p class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-line"></span>
+      {t.hero.scroll}
+    </p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: clamp(3rem, 1.5rem + 6vw, 7rem);
+    padding-bottom: clamp(4rem, 2rem + 6vw, 8rem);
+  }
+
+  .hero__shell {
+    display: grid;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__title {
+    font-size: var(--text-hero);
+    font-weight: 500;
+    line-height: var(--leading-tight);
+    letter-spacing: -0.035em;
+    max-width: 15ch;
+  }
+
+  /*
+   * On wide screens the copy column drops and the panel stays high, so the two
+   * halves stagger instead of sitting on one baseline. The panel must never
+   * ride up into the headline — it made "Ngerjain" unreadable when it did.
+   */
+  .hero__body {
+    display: grid;
+    gap: var(--space-12);
+    margin-top: var(--space-12);
+  }
+
+  .hero__lede {
+    max-width: 34ch;
+    font-size: var(--text-lg);
+    color: var(--text-mid);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .hero__scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: var(--space-16);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-lo);
+  }
+
+  .hero__scroll-line {
+    width: 3.5rem;
+    height: 1px;
+    background: linear-gradient(to right, var(--copper), transparent);
+    transform-origin: left;
+    animation: scroll-pulse 2.8s var(--ease-out-expo) infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { transform: scaleX(0.35); opacity: 0.5; }
+    50% { transform: scaleX(1); opacity: 1; }
+  }
+
+  @media (min-width: 60rem) {
+    .hero__title {
+      max-width: 12ch;
+    }
+
+    .hero__body {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+      gap: clamp(2rem, 4vw, 4.5rem);
+      margin-top: var(--space-8);
+    }
+
+    .hero__copy {
+      padding-top: var(--space-12);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll-line {
+      animation: none;
+      transform: scaleX(1);
+    }
+  }
+</style>

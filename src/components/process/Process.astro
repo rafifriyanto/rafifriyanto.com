@@ -1,0 +1,121 @@
+---
+import type { Dict } from '../../i18n';
+import SectionHead from '../section/SectionHead.astro';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="process" aria-labelledby="process-title">
+  <div class="shell">
+    <SectionHead
+      no="03"
+      label={t.process.eyebrow}
+      title={t.process.title}
+      lede={t.process.lede}
+      id="process-title"
+    />
+
+    <ol class="steps">
+      {t.process.steps.map((step, i) => (
+        <li class="step reveal-item" style={`--i:${i}`}>
+          <div class="step__head">
+            <span class="step__no">{step.no}</span>
+            <span class="step__node" aria-hidden="true"></span>
+          </div>
+          <h3 class="step__title">{step.title}</h3>
+          <p class="step__body">{step.body}</p>
+          <p class="step__meta">{step.meta}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    display: grid;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .step {
+    position: relative;
+    padding-top: var(--space-6);
+  }
+
+  .step__head {
+    display: flex;
+    align-items: center;
+    /* Roomy enough that the node dot never reads as a digit of the number. */
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .step__no {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wider);
+    color: var(--copper);
+  }
+
+  /* The connecting hairline lives on the head row, so it lines up with the node. */
+  .step__node {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: var(--line-mid);
+  }
+
+  .step__node::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--copper);
+    border-radius: var(--r-full);
+    background: var(--ink-900);
+    transform: translate(-50%, -50%);
+  }
+
+  .step__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .step__body {
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    max-width: 40ch;
+  }
+
+  .step__meta {
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-lo);
+  }
+
+  @media (min-width: 46rem) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+  }
+
+  @media (min-width: 68rem) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

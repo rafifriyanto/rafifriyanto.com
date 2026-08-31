@@ -1,0 +1,169 @@
+---
+import type { Dict } from '../../i18n';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+const { terminal } = t.hero;
+---
+
+<figure class="panel" aria-label={terminal.footer}>
+  <figcaption class="panel__bar">
+    <span class="panel__file">{terminal.title}</span>
+    <span class="panel__status">
+      <span class="panel__dot" aria-hidden="true"></span>
+      {terminal.status}
+    </span>
+  </figcaption>
+
+  <ol class="panel__log">
+    {terminal.lines.map((line, i) => (
+      <li class="panel__line" data-tone={line.tone} style={`--i:${i}`}>
+        <span class="panel__time">{line.time}</span>
+        <span class="panel__marker" aria-hidden="true"></span>
+        <span class="panel__text">{line.text}</span>
+      </li>
+    ))}
+  </ol>
+
+  <p class="panel__foot">{terminal.footer}</p>
+</figure>
+
+<style>
+  .panel {
+    position: relative;
+    margin: 0;
+    border: 1px solid var(--line-mid);
+    border-radius: var(--r-lg);
+    background:
+      linear-gradient(oklch(17% 0.013 62 / 0.9), oklch(13.5% 0.012 62 / 0.9));
+    box-shadow: 0 32px 80px -40px oklch(0% 0 0 / 0.9);
+    overflow: hidden;
+  }
+
+  /* Hairline highlight along the top edge — reads as machined metal. */
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset-inline: 12%;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--copper), transparent);
+    opacity: 0.55;
+  }
+
+  .panel__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.08em;
+  }
+
+  .panel__file {
+    color: var(--text-lo);
+  }
+
+  .panel__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--jade);
+  }
+
+  .panel__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--r-full);
+    background: var(--jade);
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .panel__log {
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem 0;
+  }
+
+  .panel__line {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.55rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: log-in 0.5s var(--ease-out-expo) forwards;
+    animation-delay: calc(0.5s + var(--i) * 0.42s);
+  }
+
+  @keyframes log-in {
+    to { opacity: 1; transform: none; }
+  }
+
+  .panel__line + .panel__line {
+    border-top: 1px solid oklch(100% 0 0 / 0.04);
+  }
+
+  .panel__time {
+    color: var(--text-lo);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel__marker {
+    width: 5px;
+    height: 5px;
+    border-radius: var(--r-full);
+    background: var(--jade);
+    transform: translateY(-2px);
+  }
+
+  .panel__line[data-tone='warn'] .panel__marker {
+    background: var(--copper);
+  }
+
+  .panel__line[data-tone='warn'] .panel__text {
+    color: var(--text-hi);
+  }
+
+  .panel__text {
+    color: var(--text-mid);
+    overflow-wrap: anywhere;
+  }
+
+  .panel__foot {
+    padding: 0.95rem 1.1rem;
+    border-top: 1px solid var(--line);
+    background: oklch(100% 0 0 / 0.02);
+    font-size: var(--text-xs);
+    color: var(--text-lo);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel__line {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .panel__dot {
+      animation: none;
+    }
+  }
+</style>

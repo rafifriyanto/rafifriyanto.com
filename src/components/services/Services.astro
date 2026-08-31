@@ -1,0 +1,191 @@
+---
+import type { Dict } from '../../i18n';
+import SectionHead from '../section/SectionHead.astro';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="services" aria-labelledby="services-title">
+  <div class="shell">
+    <SectionHead
+      no="01"
+      label={t.services.eyebrow}
+      title={t.services.title}
+      lede={t.services.lede}
+      id="services-title"
+    />
+
+    <!--
+      Bento, not a row of three equal cards: the lead service gets a tile twice
+      the size of the other two, so the eye is told where to start.
+    -->
+    <ul class="bento">
+      {t.services.items.map((item, i) => (
+        <li class:list={['tile', i === 0 && 'tile--lead', 'reveal-item']} style={`--i:${i}`}>
+          <span class="tile__no" aria-hidden="true">{item.no}</span>
+
+          <h3 class="tile__title">{item.title}</h3>
+          <p class="tile__summary">{item.summary}</p>
+
+          <ul class="tile__points">
+            {item.points.map((point) => (
+              <li class="tile__point">{point}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tile {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: linear-gradient(158deg, oklch(18% 0.013 62 / 0.7), oklch(13.5% 0.012 62 / 0.4));
+    overflow: hidden;
+    transition: border-color var(--dur-normal) var(--ease-out-quart);
+  }
+
+  /* A copper wash that only wakes up on the lead tile and on hover. */
+  .tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(24rem 14rem at 88% -10%, oklch(70% 0.14 64 / 0.16), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--dur-slow) var(--ease-out-quart);
+    pointer-events: none;
+  }
+
+  .tile--lead::after {
+    opacity: 0.7;
+  }
+
+  .tile:hover {
+    border-color: var(--line-mid);
+  }
+
+  .tile:hover::after {
+    opacity: 1;
+  }
+
+  .tile > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tile__no {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wider);
+    color: var(--copper);
+  }
+
+  .tile__title {
+    font-size: var(--text-lg);
+    letter-spacing: -0.015em;
+  }
+
+  .tile--lead .tile__title {
+    font-size: var(--text-xl);
+  }
+
+  .tile__summary {
+    max-width: 44ch;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+  }
+
+  .tile--lead .tile__summary {
+    font-size: var(--text-base);
+  }
+
+  .tile__points {
+    display: grid;
+    gap: var(--space-2);
+    margin: var(--space-2) 0 0;
+    padding: var(--space-4) 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .tile__point {
+    position: relative;
+    padding-left: 1.35rem;
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    color: var(--text-lo);
+  }
+
+  .tile__point::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--copper-dim);
+  }
+
+  @media (min-width: 46rem) {
+    /*
+     * Two columns, deliberately unequal — an even split would put us back at
+     * the identical-card grid this section exists to avoid.
+     */
+    .bento {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    }
+
+    .tile--lead {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 68rem) {
+    .tile--lead {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      column-gap: clamp(2rem, 5vw, 5rem);
+      align-content: start;
+    }
+
+    .tile--lead .tile__no,
+    .tile--lead .tile__title,
+    .tile--lead .tile__summary {
+      grid-column: 1;
+    }
+
+    .tile--lead .tile__points {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      grid-template-columns: minmax(0, 1fr);
+      align-content: center;
+      margin: 0;
+      padding: 0 0 0 var(--space-8);
+      border-top: 0;
+      border-left: 1px solid var(--line);
+      gap: var(--space-3);
+    }
+
+    .tile--lead .tile__point {
+      font-size: var(--text-sm);
+    }
+  }
+</style>

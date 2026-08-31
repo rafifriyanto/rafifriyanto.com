@@ -1,0 +1,188 @@
+---
+import type { Dict } from '../../i18n';
+import SectionHead from '../section/SectionHead.astro';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="work" aria-labelledby="work-title">
+  <div class="shell">
+    <SectionHead
+      no="02"
+      label={t.work.eyebrow}
+      title={t.work.title}
+      lede={t.work.lede}
+      id="work-title"
+    />
+
+    <div class="work">
+      {t.work.items.map((item, i) => (
+        <article class="case reveal">
+          <div class="case__rail">
+            <span class="case__index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="case__tag">{item.tag}</span>
+          </div>
+
+          <div class="case__body">
+            <h3 class="case__title">{item.title}</h3>
+            <p class="case__solution">{item.solution}</p>
+
+            <ul class="case__chips">
+              {item.highlights.map((h) => (
+                <li class="chip">{h}</li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- The problem carries the emotional weight, so it gets the serif. -->
+          <blockquote class="pull-quote case__quote">{item.problem}</blockquote>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    display: grid;
+  }
+
+  /*
+   * Rule-separated rows rather than boxed cards — the boxes were fighting the
+   * bento above them and made the whole page read as one card grid.
+   */
+  .case {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .case:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case__rail {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+
+  .case__index {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: clamp(2.75rem, 2rem + 3vw, 5rem);
+    line-height: 0.8;
+    color: var(--copper);
+    opacity: 0.45;
+  }
+
+  .case__tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-lo);
+  }
+
+  .case__title {
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-4);
+  }
+
+  /* Held below the section titles so it supports the case, not outshouts it. */
+  .case__quote {
+    max-width: 26ch;
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
+    /*
+     * Stacked, the story must run rail → problem → solution, so the quote is
+     * ordered between them. On wide screens it moves to the margin column.
+     */
+    order: 2;
+    margin-bottom: var(--space-6);
+  }
+
+  .case__rail {
+    order: 1;
+  }
+
+  .case__body {
+    order: 3;
+  }
+
+  .case__solution {
+    max-width: var(--measure);
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+  }
+
+  .case__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.04em;
+    color: var(--text-lo);
+    transition: border-color var(--dur-fast) linear, color var(--dur-fast) linear;
+  }
+
+  .case:hover .chip {
+    border-color: var(--line-mid);
+    color: var(--text-mid);
+  }
+
+  @media (min-width: 60rem) {
+    .case {
+      grid-template-columns: minmax(0, 10rem) minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: clamp(1.5rem, 4vw, 4rem);
+      align-items: start;
+    }
+
+    /*
+     * Drop the mobile ordering entirely — leaving it on pushes the body to a
+     * second row, because auto-placement walks items in `order`, not DOM order.
+     */
+    .case__rail,
+    .case__body,
+    .case__quote {
+      order: 0;
+      grid-row: 1;
+    }
+
+    .case__rail {
+      grid-column: 1;
+      flex-direction: column;
+      gap: var(--space-3);
+      position: sticky;
+      top: 7rem;
+    }
+
+    .case__body {
+      grid-column: 2;
+    }
+
+    /* The quote sits in the third column, reading as a margin note. */
+    .case__quote {
+      grid-column: 3;
+      margin-bottom: 0;
+      padding-left: var(--space-6);
+      border-left: 1px solid var(--line-mid);
+      align-self: start;
+    }
+  }
+</style>

@@ -1,0 +1,479 @@
+---
+import type { Locale } from '../../config';
+import type { Dict } from '../../i18n';
+import SectionHead from '../section/SectionHead.astro';
+import { BASES, ADDONS, PER_SOURCE, SOURCE_MIN, SOURCE_MAX, RETAINER_MONTHLY } from '../../i18n/pricing';
+
+interface Props {
+  locale: Locale;
+  t: Dict;
+}
+
+const { locale, t } = Astro.props;
+const p = t.pricing;
+const intlLocale = locale === 'id' ? 'id-ID' : 'en-US';
+---
+
+<section id="pricing" aria-labelledby="pricing-title">
+  <div class="shell">
+    <SectionHead no="04" label={p.eyebrow} title={p.title} lede={p.lede} id="pricing-title" />
+
+    <form
+      class="calc reveal"
+      data-calc
+      data-locale={intlLocale}
+      data-per-source={PER_SOURCE}
+      data-retainer={RETAINER_MONTHLY}
+      onsubmit="return false"
+    >
+      <div class="calc__controls">
+        <!-- base -->
+        <fieldset class="field">
+          <legend class="field__legend">{p.baseLabel}</legend>
+          <div class="opts opts--base">
+            {BASES.map((base, i) => (
+              <label class="opt">
+                <input type="radio" name="base" value={base.id} data-price={base.price} checked={i === 0} />
+                <span class="opt__box">
+                  <span class="opt__head">
+                    <span class="opt__title">{p.bases[base.id].title}</span>
+                    <span class="opt__mark" aria-hidden="true"></span>
+                  </span>
+                  <span class="opt__desc">{p.bases[base.id].desc}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <!-- sources -->
+        <fieldset class="field">
+          <legend class="field__legend">{p.sourceLabel}</legend>
+          <p class="field__hint">{p.sourceHint}</p>
+          <div class="range">
+            <input
+              class="range__input"
+              type="range"
+              name="sources"
+              min={SOURCE_MIN}
+              max={SOURCE_MAX}
+              value="1"
+              step="1"
+              aria-describedby="sources-value"
+            />
+            <output class="range__value" id="sources-value" data-sources-out>1</output>
+          </div>
+        </fieldset>
+
+        <!-- add-ons -->
+        <fieldset class="field">
+          <legend class="field__legend">{p.addonLabel}</legend>
+          <div class="opts opts--addon">
+            {ADDONS.map((addon) => (
+              <label class="opt">
+                <input type="checkbox" name="addon" value={addon.id} data-price={addon.price} />
+                <span class="opt__box">
+                  <span class="opt__head">
+                    <span class="opt__title">{p.addons[addon.id].title}</span>
+                    <span class="opt__mark opt__mark--check" aria-hidden="true"></span>
+                  </span>
+                  <span class="opt__desc">{p.addons[addon.id].desc}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="calc__summary">
+        <div class="summary">
+          <p class="summary__label">{p.totalLabel}</p>
+          <p class="summary__total" data-total aria-live="polite">—</p>
+
+          <hr class="rule" />
+
+          <p class="summary__sub">{p.includedLabel}</p>
+          <ul class="summary__list">
+            {p.included.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <div class="summary__retainer">
+            <p class="summary__sub">{p.retainerLabel}</p>
+            <p class="summary__retainer-price">
+              <span data-retainer-out>—</span><span class="summary__suffix">{p.retainerSuffix}</span>
+            </p>
+            <p class="summary__note">{p.retainerDesc}</p>
+          </div>
+
+          <a class="btn summary__cta" href="#contact">
+            {p.cta}
+            <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <p class="summary__note summary__note--fine">{p.disclaimer}</p>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<style>
+  .calc {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .calc__controls {
+    display: grid;
+    gap: var(--space-12);
+    min-width: 0;
+  }
+
+  /* --- fieldset --- */
+
+  .field {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field__legend {
+    padding: 0;
+    margin-bottom: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--copper);
+  }
+
+  .field__hint {
+    margin-top: -0.5rem;
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-lo);
+  }
+
+  /* --- options --- */
+
+  .opts {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .opt {
+    display: block;
+    cursor: pointer;
+  }
+
+  /* The real control stays in the a11y tree and drives every visual state. */
+  .opt input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .opt__box {
+    display: grid;
+    gap: 0.35rem;
+    height: 100%;
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: oklch(100% 0 0 / 0.015);
+    transition:
+      border-color var(--dur-fast) var(--ease-out-quart),
+      background-color var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .opt:hover .opt__box {
+    border-color: var(--line-mid);
+    background: oklch(100% 0 0 / 0.035);
+  }
+
+  .opt input:checked + .opt__box {
+    border-color: var(--copper);
+    background: oklch(79% 0.145 66 / 0.07);
+  }
+
+  .opt input:focus-visible + .opt__box {
+    outline: 2px solid var(--copper);
+    outline-offset: 3px;
+  }
+
+  .opt__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .opt__title {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-hi);
+  }
+
+  .opt__desc {
+    font-size: var(--text-xs);
+    color: var(--text-lo);
+    line-height: 1.45;
+  }
+
+  .opt__mark {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-full);
+    transition: border-color var(--dur-fast) linear;
+  }
+
+  .opt__mark--check {
+    border-radius: var(--r-sm);
+  }
+
+  .opt input:checked + .opt__box .opt__mark {
+    border-color: var(--copper);
+    background:
+      radial-gradient(circle at 50% 50%, var(--copper) 0 45%, transparent 46%);
+  }
+
+  .opt input:checked + .opt__box .opt__mark--check {
+    background: var(--copper);
+    box-shadow: inset 0 0 0 2px var(--ink-900);
+  }
+
+  /* --- range --- */
+
+  .range {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .range__input {
+    flex: 1;
+    min-width: 0;
+    height: 2rem;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .range__input::-webkit-slider-runnable-track {
+    height: 2px;
+    border-radius: var(--r-full);
+    background: var(--line-strong);
+  }
+
+  .range__input::-moz-range-track {
+    height: 2px;
+    border-radius: var(--r-full);
+    background: var(--line-strong);
+  }
+
+  .range__input::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: -0.5rem;
+    border: 0;
+    border-radius: var(--r-full);
+    background: var(--copper);
+    transition: transform var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .range__input::-moz-range-thumb {
+    width: 1.05rem;
+    height: 1.05rem;
+    border: 0;
+    border-radius: var(--r-full);
+    background: var(--copper);
+  }
+
+  .range__input:hover::-webkit-slider-thumb {
+    transform: scale(1.15);
+  }
+
+  .range__value {
+    min-width: 2.5rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line-mid);
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--text-hi);
+  }
+
+  /* --- summary --- */
+
+  .summary {
+    position: relative;
+    display: grid;
+    gap: var(--space-4);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    border: 1px solid var(--line-mid);
+    border-radius: var(--r-lg);
+    background: linear-gradient(165deg, oklch(19% 0.014 62 / 0.9), oklch(13.5% 0.012 62 / 0.85));
+    box-shadow: 0 30px 70px -45px oklch(0% 0 0 / 0.9);
+  }
+
+  .summary__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-lo);
+  }
+
+  .summary__total {
+    font-family: var(--font-mono);
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-hi);
+  }
+
+  .summary__sub {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--copper);
+  }
+
+  .summary__list {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .summary__list li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+  }
+
+  .summary__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.5rem;
+    height: 0.28rem;
+    border-left: 1.5px solid var(--jade);
+    border-bottom: 1.5px solid var(--jade);
+    transform: rotate(-45deg);
+  }
+
+  .summary__retainer {
+    display: grid;
+    gap: 0.4rem;
+    padding: var(--space-4);
+    border: 1px dashed var(--line-mid);
+    border-radius: var(--r-md);
+  }
+
+  .summary__retainer-price {
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-hi);
+  }
+
+  .summary__suffix {
+    font-size: var(--text-xs);
+    color: var(--text-lo);
+  }
+
+  .summary__note {
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    color: var(--text-lo);
+  }
+
+  .summary__note--fine {
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--line);
+  }
+
+  .summary__cta {
+    justify-content: center;
+    margin-top: var(--space-2);
+  }
+
+  @media (min-width: 46rem) {
+    .opts--base,
+    .opts--addon {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .calc {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr);
+      align-items: start;
+    }
+
+    .summary {
+      position: sticky;
+      top: 6.5rem;
+    }
+
+    .opts--base {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-calc]');
+
+  if (form) {
+    const locale = form.dataset.locale ?? 'id-ID';
+    const perSource = Number(form.dataset.perSource ?? 0);
+    const retainer = Number(form.dataset.retainer ?? 0);
+
+    const totalOut = form.querySelector<HTMLElement>('[data-total]');
+    const sourcesOut = form.querySelector<HTMLOutputElement>('[data-sources-out]');
+    const retainerOut = form.querySelector<HTMLElement>('[data-retainer-out]');
+    const range = form.querySelector<HTMLInputElement>('input[name="sources"]');
+
+    const money = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0,
+    });
+
+    const priceOf = (el: Element | null) => Number((el as HTMLElement | null)?.dataset.price ?? 0);
+
+    const recalculate = () => {
+      const base = priceOf(form.querySelector('input[name="base"]:checked'));
+
+      let addons = 0;
+      form.querySelectorAll<HTMLInputElement>('input[name="addon"]:checked').forEach((el) => {
+        addons += Number(el.dataset.price ?? 0);
+      });
+
+      const sources = Number(range?.value ?? 1);
+      const extraSources = Math.max(0, sources - 1) * perSource;
+
+      if (totalOut) totalOut.textContent = money.format(base + addons + extraSources);
+      if (sourcesOut) sourcesOut.value = String(sources);
+      if (retainerOut) retainerOut.textContent = money.format(retainer);
+    };
+
+    form.addEventListener('input', recalculate);
+    recalculate();
+  }
+</script>

@@ -1,0 +1,42 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/nav/Nav.astro';
+import Hero from '../components/hero/Hero.astro';
+import ValueStrip from '../components/values/ValueStrip.astro';
+import Services from '../components/services/Services.astro';
+import Work from '../components/work/Work.astro';
+import Process from '../components/process/Process.astro';
+import Pricing from '../components/pricing/Pricing.astro';
+import About from '../components/about/About.astro';
+import Contact from '../components/contact/Contact.astro';
+import Faq from '../components/faq/Faq.astro';
+import Footer from '../components/footer/Footer.astro';
+
+import type { Locale } from '../config';
+import { useDict } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useDict(locale);
+---
+
+<Base locale={locale} t={t}>
+  <Nav locale={locale} t={t} />
+
+  <main id="main">
+    <Hero t={t} />
+    <ValueStrip t={t} />
+    <Services t={t} />
+    <Work t={t} />
+    <Process t={t} />
+    <Pricing locale={locale} t={t} />
+    <About t={t} />
+    <Contact t={t} />
+    <Faq t={t} />
+  </main>
+
+  <Footer locale={locale} t={t} />
+</Base>

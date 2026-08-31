@@ -1,0 +1,98 @@
+---
+import type { Dict } from '../../i18n';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<!--
+  Replaces the technology marquee that used to sit here. A scrolling list of
+  tool names asks the reader to care about my stack before they know what they
+  get; these three lines answer "why you" instead. The stack moved to About,
+  where someone technical will actually look for it.
+-->
+<div class="values">
+  <dl class="shell values__grid">
+    {t.values.map((item, i) => (
+      <div class="value reveal-item" style={`--i:${i}`}>
+        <dt class="value__k">{item.k}</dt>
+        <dd class="value__v">{item.v}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style>
+  .values {
+    border-block: 1px solid var(--line);
+    background: oklch(100% 0 0 / 0.015);
+  }
+
+  .values__grid {
+    display: grid;
+    gap: 0;
+    /* margin-block only — a blanket `margin: 0` would kill .shell's centring. */
+    margin-block: 0;
+  }
+
+  .value {
+    display: grid;
+    gap: 0.35rem;
+    padding-block: var(--space-6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .value:last-child {
+    border-bottom: 0;
+  }
+
+  .value__k {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-hi);
+  }
+
+  .value__k::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--copper);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .value__v {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: var(--text-sm);
+    color: var(--text-lo);
+  }
+
+  @media (min-width: 46rem) {
+    .values__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .value {
+      padding-block: var(--space-8);
+      padding-right: var(--space-6);
+      border-bottom: 0;
+      border-left: 1px solid var(--line);
+      padding-left: var(--space-6);
+    }
+
+    .value:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+</style>

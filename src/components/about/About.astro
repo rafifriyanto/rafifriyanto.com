@@ -1,0 +1,172 @@
+---
+import type { Dict } from '../../i18n';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="about" aria-labelledby="about-title">
+  <div class="shell about">
+    <div class="about__copy reveal">
+      <p class="section-index">
+        <span class="section-index__no">05</span>
+        <span class="section-index__label">{t.about.eyebrow}</span>
+      </p>
+
+      <h2 class="about__title" id="about-title">{t.about.title}</h2>
+
+      <blockquote class="pull-quote about__quote">{t.about.quote}</blockquote>
+
+      <p class="about__greeting">{t.about.greeting}</p>
+      {t.about.body.map((para) => <p class="about__para">{para}</p>)}
+    </div>
+
+    <div class="about__side">
+      <div class="reveal">
+        <p class="about__side-label">{t.about.principlesLabel}</p>
+        <ul class="principles">
+          {t.about.principles.map((item) => (
+            <li class="principle">
+              <h3 class="principle__title">{item.title}</h3>
+              <p class="principle__body">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- The stack lives here now, where a technical reader goes looking. -->
+      <div class="reveal stack">
+        <p class="about__side-label">{t.stack.label}</p>
+        <ul class="stack__list">
+          {t.stack.items.map((item) => (
+            <li class="stack__item">{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  .about__title {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.025em;
+    max-width: 16ch;
+    margin-block: var(--space-4) var(--space-8);
+  }
+
+  .about__quote {
+    max-width: 24ch;
+    margin-bottom: var(--space-8);
+    padding-left: var(--space-6);
+    border-left: 2px solid var(--copper-deep);
+  }
+
+  .about__greeting {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.06em;
+    color: var(--copper);
+    margin-bottom: var(--space-4);
+  }
+
+  .about__para {
+    max-width: var(--measure);
+    color: var(--text-mid);
+  }
+
+  .about__para + .about__para {
+    margin-top: var(--space-4);
+  }
+
+  .about__side {
+    display: grid;
+    gap: var(--space-12);
+    align-content: start;
+  }
+
+  .about__side-label {
+    margin-bottom: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-lo);
+  }
+
+  .principles {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .principle {
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .principle__title {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .principle__title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    background: var(--copper);
+    transform: rotate(45deg);
+  }
+
+  .principle__body {
+    padding-left: 1.1rem;
+    font-size: var(--text-sm);
+    color: var(--text-lo);
+  }
+
+  .stack__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stack__item {
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.04em;
+    color: var(--text-lo);
+  }
+
+  @media (min-width: 60rem) {
+    .about {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      align-items: start;
+    }
+
+    .about__side {
+      padding-top: calc(var(--space-16) + var(--space-6));
+    }
+  }
+</style>

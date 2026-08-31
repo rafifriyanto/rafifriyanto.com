@@ -1,0 +1,150 @@
+---
+import type { Dict } from '../../i18n';
+
+interface Props {
+  t: Dict;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="faq" aria-labelledby="faq-title">
+  <div class="shell faq">
+    <header class="faq__head reveal">
+      <p class="section-index">
+        <span class="section-index__no">07</span>
+        <span class="section-index__label">{t.faq.eyebrow}</span>
+      </p>
+      <h2 class="section-title faq__title" id="faq-title">{t.faq.title}</h2>
+    </header>
+
+    <!-- Native <details>: an accordion with keyboard support and zero JS. -->
+    <div class="faq__list reveal">
+      {t.faq.items.map((item) => (
+        <details class="qa" name="faq">
+          <summary class="qa__q">
+            <span>{item.q}</span>
+            <span class="qa__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="qa__a">
+            <p>{item.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .faq__title {
+    margin-top: var(--space-4);
+  }
+
+  .faq__list {
+    border-top: 1px solid var(--line);
+  }
+
+  .qa {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .qa__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-base);
+    color: var(--text-hi);
+    transition: color var(--dur-fast) linear;
+  }
+
+  .qa__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .qa__q:hover {
+    color: var(--copper);
+  }
+
+  .qa__icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .qa__icon::before,
+  .qa__icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: currentColor;
+    transition: transform var(--dur-normal) var(--ease-out-expo), opacity var(--dur-fast) linear;
+  }
+
+  .qa__icon::before {
+    width: 100%;
+    height: 1px;
+  }
+
+  .qa__icon::after {
+    width: 1px;
+    height: 100%;
+  }
+
+  .qa[open] .qa__icon::after {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  .qa[open] .qa__q {
+    color: var(--copper);
+  }
+
+  .qa__a {
+    padding-bottom: var(--space-6);
+    padding-right: var(--space-8);
+    max-width: var(--measure);
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+  }
+
+  /* Interpolate the disclosure open/close where the browser supports it. */
+  @supports (interpolate-size: allow-keywords) {
+    .qa::details-content {
+      block-size: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition:
+        block-size var(--dur-normal) var(--ease-out-expo),
+        content-visibility var(--dur-normal) allow-discrete,
+        opacity var(--dur-normal) linear;
+    }
+
+    .qa[open]::details-content {
+      block-size: auto;
+      opacity: 1;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .faq {
+      grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+      align-items: start;
+    }
+
+    .faq__head {
+      position: sticky;
+      top: 7rem;
+    }
+  }
+</style>
