@@ -11,6 +11,13 @@ interface Props {
 const { locale, t } = Astro.props;
 const year = new Date().getFullYear();
 const waHref = `https://wa.me/${CONTACT.whatsapp}`;
+
+// A profile with no URL yet must not render — an anchor pointing at
+// linkedin.com/in/ is a dead link, and dead links ship badly.
+const socials = [
+  { label: 'GitHub', href: CONTACT.github },
+  { label: 'LinkedIn', href: CONTACT.linkedin },
+].filter((s) => /^https?:\/\/\S+\.\S+/.test(s.href) && !s.href.endsWith('/in/'));
 ---
 
 <footer class="foot">
@@ -40,8 +47,9 @@ const waHref = `https://wa.me/${CONTACT.whatsapp}`;
     <div class="foot__col">
       <h2 class="foot__label">{t.footer.socialLabel}</h2>
       <ul class="foot__list">
-        <li><a class="foot__link" href={CONTACT.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a class="foot__link" href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        {socials.map((s) => (
+          <li><a class="foot__link" href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a></li>
+        ))}
         <li>
           <a class="foot__link" href={withBase(locale === 'id' ? '/en/' : '/')}>
             {locale === 'id' ? 'English' : 'Bahasa Indonesia'}
