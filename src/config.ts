@@ -17,8 +17,7 @@ export const CONTACT = {
   whatsapp: '6281386100409',
   whatsappDisplay: '+62 813-8610-0409',
   github: 'https://github.com/hanbaenom-coder',
-  /** PLACEHOLDER — swap for your own profile, or drop the link from the footer. */
-  linkedin: 'https://www.linkedin.com/in/',
+  linkedin: 'https://www.linkedin.com/in/rafifriyanto/',
 } as const;
 
 /**
