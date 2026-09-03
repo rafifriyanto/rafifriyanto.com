@@ -16,7 +16,7 @@ export const CONTACT = {
   /** International format, digits only — this feeds the wa.me link. */
   whatsapp: '6281386100409',
   whatsappDisplay: '+62 813-8610-0409',
-  github: 'https://github.com/hanbaenom-coder',
+  github: 'https://github.com/rafifriyanto',
   linkedin: 'https://www.linkedin.com/in/rafifriyanto/',
 } as const;
 

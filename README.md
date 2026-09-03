@@ -42,7 +42,7 @@ sisanya belum:
 |---|---|---|
 | `CONTACT.email` | `rafifriyanto@gmail.com` | ✅ sudah benar |
 | `CONTACT.whatsapp` | `6281386100409` | ✅ sudah benar |
-| `CONTACT.github` | `hanbaenom-coder` | ✅ sudah benar |
+| `CONTACT.github` | `rafifriyanto` | ✅ sudah benar |
 | `CONTACT.linkedin` | `/in/rafifriyanto` | ✅ sudah benar |
 | `FORM_ENDPOINT` | `''` | endpoint form (lihat bawah) |
 
@@ -88,7 +88,7 @@ src/
 
 ## Deploy
 
-**Situs sudah hidup:** https://hanbaenom-coder.github.io/rafifriyanto.com/
+**Situs sudah hidup:** https://rafifriyanto.github.io/rafifriyanto.com/
 
 Setiap `git push` ke `main` memicu
 [workflow GitHub Pages](.github/workflows/deploy.yml) yang membangun ulang dan
