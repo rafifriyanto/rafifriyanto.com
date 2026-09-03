@@ -88,56 +88,30 @@ src/
 
 ## Deploy
 
-Repo ini sudah punya commit awal, tapi **belum ada remote** — dan aku tidak bisa
-membuatnya untukmu: `gh` CLI belum terpasang, dan kunci SSH di mesin ini (`mac-to-homelab`)
-belum terdaftar di GitHub. Keduanya butuh login yang hanya bisa kamu lakukan sendiri.
+**Situs sudah hidup:** https://hanbaenom-coder.github.io/rafifriyanto.com/
 
-**Penting:** push ke GitHub **tidak** membuat situsnya bisa diakses. GitHub cuma
-menyimpan kodenya. Supaya rafifriyanto.com hidup, butuh dua hal lagi: hosting yang
-membangun situs (Cloudflare Pages) dan DNS yang mengarahkan domainmu ke sana.
+Setiap `git push` ke `main` memicu
+[workflow GitHub Pages](.github/workflows/deploy.yml) yang membangun ulang dan
+menerbitkan. Tidak ada langkah manual.
 
-### 1. Daftarkan kunci SSH (sekali seumur mesin)
+Syaratnya satu kali saja, dan sudah dilakukan: repo Settings → Pages → Source =
+**GitHub Actions**. Workflow tidak bisa menyalakannya sendiri karena token bawaan
+Actions di repo ini hanya punya izin baca.
 
-Salin kunci publikmu:
+### Kalau nanti pindah ke domain sendiri
 
-```bash
-cat ~/.ssh/id_ed25519.pub
-```
-
-Tempel di github.com → Settings → SSH and GPG keys → New SSH key. Lalu uji:
-
-```bash
-ssh -T git@github.com
-```
-
-Harus muncul "Hi <username>! You've successfully authenticated."
-
-### 2. Buat repo kosong dan push
-
-Buat repo baru di github.com (kosong — tanpa README, tanpa .gitignore), lalu:
-
-```bash
-cd ~/rafifriyanto-com && git remote add origin git@github.com:<username>/rafifriyanto-com.git && git push -u origin main
-```
-
-### 3. Sambungkan ke Cloudflare Pages
+Domain `rafifriyanto.com` **belum dibeli**. Kalau nanti dibeli:
 
 1. dash.cloudflare.com → Workers & Pages → Create → Pages → Connect to Git
-2. Pilih repo ini
-3. Build command `npm run build`, output directory `dist`, framework preset Astro
-4. Deploy. Kamu langsung dapat URL `*.pages.dev` untuk mengecek hasilnya.
+2. Build command `npm run build`, output directory `dist`, preset Astro
+3. Custom domains → tambahkan domainnya, ikuti instruksi DNS
 
-### 4. Arahkan domainnya
+Tidak ada kode yang perlu diubah. `site` dan `base` dibaca dari environment
+(`SITE_URL`, `SITE_BASE`), dan semua URL absolut — canonical, hreflang, sitemap,
+robots — diturunkan dari situ. Build default sudah menunjuk domain root.
 
-Di project Pages → Custom domains → tambahkan `rafifriyanto.com` dan `www.rafifriyanto.com`,
-lalu ikuti instruksi DNS yang Cloudflare tampilkan.
-
-Setelah domain aktif, cek ulang bahwa `SITE.url` di `src/config.ts`, `site` di
-`astro.config.mjs`, serta `public/sitemap.xml` dan `public/robots.txt` semuanya
-menunjuk domain final.
-
-Header keamanan (HSTS, CSP, X-Frame-Options, dll.) sudah disiapkan di
-[`public/_headers`](public/_headers) — Cloudflare Pages membacanya otomatis.
+Header keamanan di [`public/_headers`](public/_headers) **belum aktif** di GitHub
+Pages — itu fitur Cloudflare/Netlify, dan akan langsung berfungsi setelah pindah.
 
 ## Catatan
 
