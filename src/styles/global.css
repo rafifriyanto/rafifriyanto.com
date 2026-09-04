@@ -82,8 +82,8 @@ a {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, oklch(100% 0 0 / 0.028) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(100% 0 0 / 0.028) 1px, transparent 1px);
+    linear-gradient(to right, oklch(97% 0.01 58 / 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(97% 0.01 58 / 0.028) 1px, transparent 1px);
   background-size: 76px 76px;
   mask-image: radial-gradient(ellipse 100% 62% at 50% 0%, #000 20%, transparent 78%);
 }
@@ -93,8 +93,8 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(52rem 30rem at 72% -8%, oklch(60% 0.14 62 / 0.16), transparent 62%),
-    radial-gradient(40rem 26rem at 8% 30%, oklch(50% 0.1 40 / 0.1), transparent 65%);
+    radial-gradient(52rem 30rem at 72% -8%, oklch(52% 0.155 12 / 0.22), transparent 62%),
+    radial-gradient(40rem 26rem at 8% 30%, oklch(42% 0.12 8 / 0.16), transparent 65%);
 }
 
 /* Film grain — one tiny inline SVG, no network request, no repaint cost. */
@@ -147,7 +147,7 @@ section {
   font-weight: 500;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--copper);
+  color: var(--gold);
 }
 
 .eyebrow::before {
@@ -187,7 +187,7 @@ section {
 }
 
 .section-index__no {
-  color: var(--copper);
+  color: var(--gold);
 }
 
 .section-index__label {
@@ -227,7 +227,7 @@ section {
   font-family: var(--font-editorial);
   font-style: italic;
   font-weight: 400;
-  color: var(--copper);
+  color: var(--gold);
   letter-spacing: -0.01em;
   /* The serif's cap height runs shorter than the sans — nudge it back on line. */
   padding-inline: 0.06em;
@@ -254,7 +254,7 @@ section {
 /* --- buttons --- */
 
 .btn {
-  --btn-bg: var(--copper);
+  --btn-bg: var(--gold);
   --btn-fg: var(--ink-950);
   position: relative;
   display: inline-flex;
@@ -279,7 +279,7 @@ section {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 0 1px oklch(79% 0.145 66 / 0.4), 0 12px 32px -8px oklch(60% 0.14 62 / 0.55);
+  box-shadow: 0 0 0 1px oklch(82.8% 0.128 89 / 0.4), 0 12px 32px -8px oklch(46% 0.15 12 / 0.55);
 }
 
 .btn:active {
@@ -294,7 +294,7 @@ section {
 
 .btn--ghost:hover {
   border-color: var(--line-strong);
-  background: oklch(100% 0 0 / 0.04);
+  background: oklch(97% 0.01 58 / 0.04);
   box-shadow: none;
 }
 
@@ -309,7 +309,7 @@ section {
 /* --- focus: one visible, consistent ring everywhere --- */
 
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--copper);
+  outline: 2px solid var(--gold);
   outline-offset: 3px;
   border-radius: var(--r-sm);
 }
@@ -321,7 +321,7 @@ section {
   z-index: 100;
   padding: 0.7rem 1.1rem;
   border-radius: var(--r-md);
-  background: var(--copper);
+  background: var(--gold);
   color: var(--ink-950);
   font-family: var(--font-mono);
   font-size: var(--text-xs);

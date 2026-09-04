@@ -59,7 +59,7 @@ const { t } = Astro.props;
     padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
-    background: linear-gradient(158deg, oklch(18% 0.013 62 / 0.7), oklch(13.5% 0.012 62 / 0.4));
+    background: linear-gradient(158deg, oklch(18% 0.05 4 / 0.7), oklch(13.5% 0.032 358 / 0.4));
     overflow: hidden;
     transition: border-color var(--dur-normal) var(--ease-out-quart);
   }
@@ -69,7 +69,7 @@ const { t } = Astro.props;
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(24rem 14rem at 88% -10%, oklch(70% 0.14 64 / 0.16), transparent 70%);
+    background: radial-gradient(24rem 14rem at 88% -10%, oklch(74% 0.125 86 / 0.14), transparent 70%);
     opacity: 0;
     transition: opacity var(--dur-slow) var(--ease-out-quart);
     pointer-events: none;
@@ -96,7 +96,7 @@ const { t } = Astro.props;
     font-family: var(--font-mono);
     font-size: var(--text-micro);
     letter-spacing: var(--tracking-wider);
-    color: var(--copper);
+    color: var(--gold);
   }
 
   .tile__title {
@@ -142,7 +142,7 @@ const { t } = Astro.props;
     top: 0.6em;
     width: 0.5rem;
     height: 1px;
-    background: var(--copper-dim);
+    background: var(--gold-dim);
   }
 
   @media (min-width: 46rem) {

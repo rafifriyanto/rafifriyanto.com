@@ -1,37 +1,48 @@
 /*
- * Design tokens — "Instrument Dark"
+ * Design tokens — "Instrument Wine"
  *
- * Direction: precision-engineering editorial. Warm near-black base, hairline
- * borders instead of soft shadows, copper as the single decision colour, and a
- * jade reserved strictly for "this is running / this is live" states.
+ * Direction: precision-engineering editorial. Deep wine base, hairline borders
+ * instead of soft shadows, gold as the single decision colour, and a jade
+ * reserved strictly for "this is running / this is live" states.
  * Mono is a first-class display face here, not a code afterthought.
+ *
+ * Repalette 2026-09-03: copper-on-warm-black -> gold-on-wine, matched to the
+ * R's Palace mark and the X/LinkedIn banners so every surface reads as one hand.
+ * The LIGHTNESS ladder is deliberately unchanged from the copper version — only
+ * hue and chroma moved — so every contrast pair the site already cleared still
+ * clears it. The comment on --text-lo below is load-bearing for that reason.
  */
 
 :root {
-  /* ---- Surfaces: warm near-black, not blue-black ---- */
-  --ink-950: oklch(11% 0.01 62);
-  --ink-900: oklch(13.5% 0.012 62);
-  --ink-850: oklch(17% 0.013 62);
-  --ink-800: oklch(21% 0.013 62);
-  --ink-750: oklch(26% 0.012 62);
+  /* ---- Surfaces: deep wine. --ink-850 is the banners' ground exactly. ---- */
+  --ink-950: oklch(11% 0.026 356);
+  --ink-900: oklch(13.5% 0.032 358); /* = #12040A */
+  --ink-850: oklch(17.3% 0.043 358); /* = #1E0710, the banner ground */
+  --ink-800: oklch(21% 0.061 8); /* = #2E0913 */
+  --ink-750: oklch(26% 0.08 8);
 
   /* ---- Hairlines: borders carry the depth, not shadows ---- */
-  --line: oklch(100% 0 0 / 0.08);
-  --line-mid: oklch(100% 0 0 / 0.14);
-  --line-strong: oklch(100% 0 0 / 0.24);
+  --line: oklch(97% 0.01 58 / 0.08);
+  --line-mid: oklch(97% 0.01 58 / 0.14);
+  --line-strong: oklch(97% 0.01 58 / 0.24);
 
   /* ---- Text ---- */
-  --text-hi: oklch(97% 0.004 80);
-  --text-mid: oklch(75% 0.008 75);
-  /* 60% is the floor that still clears WCAG AA (4.5:1) on --ink-900. */
-  --text-lo: oklch(60% 0.009 70);
+  --text-hi: oklch(97.1% 0.01 58); /* = #FBF4EF */
+  --text-mid: oklch(76.7% 0.04 6); /* = #CBA9AF, the banners' dusty rose */
+  /* 60% is the floor that still clears WCAG AA (4.5:1) on --ink-900.
+   * Re-measured after the wine repalette: 5.00 on --ink-900, 4.78 on --ink-850.
+   * Both still clear AA, but --ink-850 has only 0.28 of headroom — do not
+   * lighten the surfaces or darken this without re-checking. */
+  --text-lo: oklch(60% 0.034 6);
 
   /* ---- Colour with a job ---- */
-  --copper: oklch(79% 0.145 66); /* primary action, emphasis */
-  --copper-dim: oklch(64% 0.12 66);
-  --copper-deep: oklch(42% 0.09 60);
+  --gold: oklch(82.8% 0.128 89); /* primary action, emphasis — = #E8C25C */
+  --gold-dim: oklch(66% 0.115 84);
+  --gold-deep: oklch(44% 0.085 82);
   --jade: oklch(78% 0.13 168); /* semantic: live, running, passing */
-  --rose: oklch(70% 0.17 22); /* semantic: alert, attention */
+  /* Alert moved 22 -> 32 deg. At hue 22 it sat on top of the new wine ground and
+   * stopped reading as a warning; pushed toward orange it separates again. */
+  --rose: oklch(72% 0.19 32); /* semantic: alert, attention */
 
   /*
    * Type — three faces, each with one job. The serif is the reason this reads

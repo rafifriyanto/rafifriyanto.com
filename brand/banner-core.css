@@ -1,0 +1,137 @@
+/* Shared banner system — X and LinkedIn render from this one file.
+ *
+ * Rebuilt 2026-09-03. The old pair failed on the thing a profile banner exists
+ * to do: the X version carried no name at all, and the LinkedIn version set
+ * "Rafif Riyanto" as a 14px mono eyebrow above a 56px headline — the smallest
+ * text on the image, at the size LinkedIn then scales down. Name is now the
+ * largest element on both; the headline steps down to support it.
+ *
+ * Palette moved copper -> red wine, matched to the R's Palace ramp so the two
+ * marks read as one hand.
+ */
+
+:root{
+  /* wine ramp */
+  --wine-900:#12040A;
+  --wine-800:#1E0710;
+  --wine-700:#2E0913;
+  --wine-500:#6B1430;
+
+  /* gold — carried over from R's Palace unchanged */
+  --gold-300:#F3DB92;
+  --gold-400:#E8C25C;
+  --gold-500:#C89B36;
+
+  --ink:#FBF4EF;        /* warm off-white, ~15:1 on --wine-800 */
+  --ink-dim:#CBA9AF;    /* dusty rose, ~7:1 — safe for the small mono rows */
+
+  /* Horizontal start of the text block. Both platforms drop the avatar over the
+   * lower LEFT of the banner, so nothing may begin at the true left edge.
+   * Overridden per platform below. */
+  --pad-x:360px;
+  --name-size:76px;
+
+  /* The small letterspaced rows (eyebrow + tags). Was JetBrains Mono; the user
+   * disliked it — mono reads terminal, which fought the serif name and the wine.
+   * Now the SAME family as the name, so the whole banner is one typeface: caps
+   * plus wide tracking do the label work instead of a second face.
+   * Weights are a step heavier than the mono was: serif stems are thinner than
+   * mono stems at the same size, and these rows get scaled down hard. */
+  --font-tag:'Source Serif 4',Georgia,serif;
+}
+
+*{box-sizing:border-box;margin:0}
+html,body{overflow:hidden}
+
+body{
+  position:relative;
+  background:var(--wine-800);
+  font-family:'Source Serif 4',Georgia,serif;
+  color:var(--ink);
+}
+
+/* ── atmosphere ─────────────────────────────────────────────────── */
+
+/* engineering grid, carried over from the site, dialled back into the wine */
+.grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right,rgba(255,236,228,.030) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,236,228,.030) 1px,transparent 1px);
+  background-size:76px 76px;
+  -webkit-mask-image:radial-gradient(ellipse 85% 130% at 72% 0%,#000 18%,transparent 78%);
+}
+
+.glow{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(48rem 26rem at 78% -20%,rgba(160,28,64,.42),transparent 64%),
+    radial-gradient(34rem 20rem at 6% 118%,rgba(107,20,48,.34),transparent 66%),
+    radial-gradient(26rem 16rem at 30% -10%,rgba(232,194,92,.055),transparent 70%);
+}
+
+/* Monogram bleeding off the right edge: balances the left-aligned text block and
+ * ties back to the R's Palace mark. Low enough to read as texture, not content. */
+.monogram{
+  position:absolute;
+  right:-.10em;top:50%;transform:translateY(-50%);
+  font-size:var(--mono-size,460px);font-weight:600;line-height:.78;
+  color:var(--gold-400);opacity:.09;
+  pointer-events:none;
+}
+
+/* ── content ────────────────────────────────────────────────────── */
+
+.content{
+  position:absolute;inset:0;
+  padding-left:var(--pad-x);padding-right:120px;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+}
+
+.eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--font-tag);
+  font-size:15.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold-400);
+  margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:38px;height:1px;background:currentColor;opacity:.7}
+
+/* The whole point of the rebuild. */
+.name{
+  font-size:var(--name-size);
+  font-weight:600;
+  line-height:1;
+  letter-spacing:-.021em;
+  color:var(--ink);
+  white-space:nowrap;
+  /* Typeface chosen against this exact string. "Rafif" puts an i between two
+   * f's, and in Fraunces / Playfair / Newsreader the f's ball terminal swallows
+   * the i's dot -- the name turns to mush at the size LinkedIn scales it to.
+   * Tested at 21px: Source Serif 4 keeps f and i apart. It is not a ligature,
+   * so font-variant-ligatures:none does nothing; only the glyph shape fixes it. */
+}
+
+.rule{
+  width:var(--rule-w,300px);height:1px;margin:22px 0;
+  background:linear-gradient(to right,var(--gold-400),rgba(232,194,92,0));
+}
+
+.tagline{
+  font-size:var(--tag-size,25px);
+  font-weight:300;line-height:1.3;
+  color:var(--ink-dim);
+}
+.tagline em{
+  font-style:italic;font-weight:400;
+  color:var(--gold-300);
+}
+
+.tags{
+  display:flex;align-items:center;gap:20px;
+  margin-top:26px;
+  font-family:var(--font-tag);
+  font-size:13.5px;font-weight:500;letter-spacing:.19em;text-transform:uppercase;
+  color:var(--ink-dim);
+}
+.tags .dot{width:4px;height:4px;background:var(--gold-500);transform:rotate(45deg);flex:none}
